@@ -1,0 +1,36 @@
+<style id="jsbin-css">
+body { font-family: arial; font-size: 14px; }
+.liveExample { padding: 1em; background-color: #EEEEDD; border: 1px solid #CCC; max-width: 655px; }
+.liveExample input { font-family: Arial; }
+.liveExample b { font-weight: bold; }
+.liveExample p { margin-top: 0.9em; margin-bottom: 0.9em; }
+.liveExample select[multiple] { width: 100%; height: 8em; }
+.liveExample h2 { margin-top: 0.4em; font-weight: bold; font-size: 1.2em; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<div class='liveExample'>   
+    <p>總價: <input data-bind='value: total_amt' /></p> 
+    <p>坪數: <input data-bind='value: pin' /></p> 
+    <p>車位價格: <input data-bind='value: car_amt' /></p> 
+    <p>打折: <input data-bind='value: sale_off' />%</p> 
+    <h2>每坪價格 =  (總價 - 車位價格) / 坪數 = <span data-bind='text: fullName'> </span>!</h2>  
+</div>
+<!--boot js--><script id="jsbin-javascript" defer>// Here's my data model
+var ViewModel = function(total_amt, pin, car_amt, sale_off) {
+    this.total_amt = ko.observable(total_amt);
+    this.pin = ko.observable(pin);
+    this.car_amt = ko.observable(car_amt);
+    this.sale_off = ko.observable(sale_off);
+ 
+    this.fullName = ko.computed(function() {
+        // Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
+        return Math.round((this.total_amt() - this.car_amt())/this.pin()*this.sale_off()/100);
+    }, this);
+};
+ 
+ko.applyBindings(new ViewModel(1577,28.12, 140, 90)); // This makes Knockout get to work
+
+// console.clear()
+
+</script>
